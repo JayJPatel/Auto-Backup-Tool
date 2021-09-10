@@ -1,3 +1,4 @@
+import os 
 from backup import Backup  
 
 #---------------------------------------------------------------------------
@@ -10,12 +11,13 @@ class Tool() :
     
     # Main Menu loop, w/ options for user 
     def menu(self) : 
-        print("Auto Backup Tool\n")
-        while(True) : 
+        while(True) :
+            os.system('cls')
+            print("Auto Backup Tool\n") 
             print("Main Menu\n\n1. Run Manual Backup\n2. Setup\n3. Help\n4. Exit")
             # Output msg if config.json not found 
             if (not self.bTool.config_Exists) : 
-                print ("config.json not found! Please run setup before starting backup\n")
+                print ("config.json not detected! Please run setup before starting backup\n")
             
             # Try/Except for user input 
             try : 
@@ -30,8 +32,9 @@ class Tool() :
                 if (self.bTool.config_Exists) : 
                     self.bTool.run()
                 else : 
-                    print ("config.json not found! Please run setup before starting backup\n")
-            
+                    print ("config.json not detected! Please run setup before starting backup\n")
+                    input("\nPress Enter to return to the main menu...") 
+
             # Run setup
             if (userInput == "2") : 
                 self.bTool.setup()
@@ -43,9 +46,18 @@ class Tool() :
             # Exit 
             if (userInput == "4") : 
                 exit() 
+
     # Opens help.txt and outputs help information
     def helpMenu(self) : 
-        pass
+        if (os.path.isfile('help.txt')) : 
+            print("---Help---\n")
+            # Open help.txt (context manager) 
+            with open('help.txt', 'r') as helpText : 
+                print(helpText.read()) 
+                input("\nPress Enter to return to the main menu...") 
+        else : 
+            print("Error: help.txt not found!")
+            input("\nPress Enter to return to the main menu...") 
     
 autoBackupTool = Tool() 
 
