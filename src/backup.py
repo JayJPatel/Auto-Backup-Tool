@@ -14,6 +14,8 @@ class Backup():
         else: 
             self.config_Exists = False  
             print("\nconfig.json Not detected! Run setup before running backup")
+            self.destination_Flag = False 
+            self.source_Flag = False 
 
     def check(self):  
         pass
@@ -27,14 +29,6 @@ class Backup():
 
     # Prompt user for backup type, location, and files to backup
     def setup(self):  
-        # Check if config exists 
-        if (self.config_Exists):  
-            self.parse()
-        else:  
-            # If config doesnt exist, set false flags 
-            self.destination_Flag = False 
-            self.source_Flag = False
-
         # Loop for setting folder paths 
         while(True): 
             # Output menu 
