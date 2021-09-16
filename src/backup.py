@@ -17,17 +17,30 @@ class Backup():
             self.destination_Flag = False 
             self.source_Flag = False 
 
-    def check(self):  
-        pass
-
     def run(self):  
         pass 
-
+    
+    '''
+    parse: Reads info + stores data from config.json 
+    @param: None
+    @return: None 
+    '''
     def parse(self):
-        # TODO Set dst & src flags on parse   
-        pass 
-
-    # Prompt user for backup type, location, and files to backup
+        # Open config.json
+        with open('config.json', 'r') as parse: 
+            data = json.load(parse)
+        # Store destination and source paths & update flags 
+        self.destination = data["Destination"]
+        self.source = data["Source"]
+        self.source_Flag = True 
+        self.destination_Flag = True   
+        return  
+    
+    '''
+    setup: Prompt user for backup type, location, and files to backup
+    @param: None 
+    @return: None
+    '''
     def setup(self):  
         # Loop for setting folder paths 
         while(True): 
@@ -37,11 +50,11 @@ class Backup():
             print("\n1. Choose file path for destination folder", end = "")
             if (self.destination_Flag):  
                 print(" [SET]", end = "")
-                #TODO: Print dest paths 
+                print("\n\t", self.destination, end = "")
             print("\n2. Choose file path for source folder", end = "")
             if (self.source_Flag):  
                 print(" [SET]", end = "")
-                #TODO: Print source paths 
+                print("\n\t", self.source, end = "")
             print("\n3. Return to main menu\n")
 
             # Try/Except for user input 
@@ -84,19 +97,20 @@ class Backup():
             # TODO - ADD MULTIPLE PATHS / REMOVE PATHS TO SOURCE 
             if (userInput == "2"):  
                 src_Path = self.setupLocation("source", "")
-                self.source = {"Source:": src_Path}
+                self.source = {"Source": src_Path}
 
             # Return to main menu
             if (userInput == "3"):  
-                # Run export if 
+                # Run export if both flags are set 
                 if (self.destination_Flag and self.source_Flag) : 
                     self.export()
                 break 
+        return 
 
     '''
     getPath: Method that grabs file path by open file explorer dialog. Called in setupLocation
     @param: String to be concatenated to end of the path 
-    return: String containing file path 
+    @return: String containing file path 
     '''
     def getPath(self, dirFolder):  
         # Create + hide tkinter window
@@ -135,6 +149,8 @@ class Backup():
 
     '''
     export: Exports file paths in setup to json file 
+    @param: None 
+    @return: None
     '''
     def export(self) :
         # Move source and destination to a single object (to export)
