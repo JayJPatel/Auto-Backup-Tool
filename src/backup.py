@@ -1,5 +1,6 @@
 import os
 import json
+import shutil 
 import tkinter as tk
 from tkinter import filedialog
 
@@ -17,8 +18,15 @@ class Backup():
             self.destination_Flag = False 
             self.source_Flag = False 
 
-    def run(self):  
-        pass 
+    def runBackup(self):  
+        # If backup folder does not exist, create it 
+        if (not os.path.isdir(self.destination)) : 
+            print("Backing up...")
+            shutil.copytree(self.source, self.destination)
+            print("Backup finished")
+            input("Press Enter to continue...")
+            return 
+        # TODO Backup when files already exist in dest directory 
     
     '''
     parse: Reads info + stores data from config.json 
@@ -101,6 +109,7 @@ class Backup():
 
             # Return to main menu
             if (userInput == "3"):  
+                # TODO Do not export if no changes have been made
                 # Run export if both flags are set 
                 if (self.destination_Flag and self.source_Flag) : 
                     self.export()
