@@ -3,6 +3,7 @@ import json
 import shutil 
 import tkinter as tk
 from tkinter import filedialog
+from datetime import datetime 
 
 #---------------------------------------------------------------------------
 # CLASS - Backup
@@ -19,14 +20,21 @@ class Backup():
             self.source_Flag = False 
 
     def runBackup(self):  
-        # If backup folder does not exist, create it 
-        if (not os.path.isdir(self.destination)) : 
-            print("Backing up...")
-            shutil.copytree(self.source, self.destination)
-            print("Backup finished")
-            input("Press Enter to continue...")
-            return 
-        # TODO Backup when files already exist in dest directory 
+        print("Backing up...")
+        # Grab current time, format, then store str to directory  
+        RightNow = str(datetime.now()) 
+        RightNow = RightNow.replace(" ", "_")
+        RightNow = RightNow.replace(":", ".")
+        RightNow = RightNow[:-7] # Removes milliseconds in str
+        print(RightNow) 
+        D = self.destination + RightNow # Backup folder w/ time 
+        try : 
+            shutil.copytree(self.source, D)
+            print("Backup successful! ")
+        except(FileNotFoundError) : 
+            print("Error: Source directory not found!")
+        input("Press Enter to continue...")
+        return 
     
     '''
     parse: Reads info + stores data from config.json 
@@ -90,22 +98,22 @@ class Backup():
                             continue 
                         # User wants to update location 
                         if (destInput == "y" or destInput == "Y"):  
-                            dest_Path = self.setupLocation("destination", "/Backup/")
-                            self.destination = {"Destination": dest_Path}
+                            self.destination = self.setupLocation("destination", "/Backup/")
+                            self.dest_Path = {"Destination": self.destination}
                             break
                         # User doesn't want to update location -- return to setup menu 
                         else:  
                             break 
                 # If destination folder hasn't already been set, call setupLocation
                 else:  
-                    dest_Path = self.setupLocation("destination", "/Backup/")
-                    self.destination = {"Destination": dest_Path}
+                    self.destination = self.setupLocation("destination", "/Backup/")
+                    self.dest_Path = {"Destination": self.destination}
 
             # Choose source folder location
             # TODO - ADD MULTIPLE PATHS / REMOVE PATHS TO SOURCE 
             if (userInput == "2"):  
-                src_Path = self.setupLocation("source", "")
-                self.source = {"Source": src_Path}
+                self.source = self.setupLocation("source", "")
+                self.src_Path = {"Source": self.source}
 
             # Return to main menu
             if (userInput == "3"):  
@@ -164,8 +172,8 @@ class Backup():
     def export(self) :
         # Move source and destination to a single object (to export)
         exportDict = {} 
-        exportDict.update(Destination = self.destination)
-        exportDict.update(Source = self.source)
+        exportDict.update(Destination = self.dest_Path)
+        exportDict.update(Source = self.src_Path)
         # Open file and export data
         with open('config.json', 'w') as config: 
             config.seek(0) # Move to line 1 
