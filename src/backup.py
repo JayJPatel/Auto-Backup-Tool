@@ -164,8 +164,8 @@ class Backup():
     def export(self) :
         # Move source and destination to a single object (to export)
         exportDict = {} 
-        exportDict.update(self.destination)
-        exportDict.update(self.source)
+        exportDict.update(Destination = self.destination)
+        exportDict.update(Source = self.source)
         # Open file and export data
         with open('config.json', 'w') as config: 
             config.seek(0) # Move to line 1 
