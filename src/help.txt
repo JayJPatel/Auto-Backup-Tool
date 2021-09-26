@@ -1,0 +1,20 @@
+
+##     ## ######## ##       ########  
+##     ## ##       ##       ##     ## 
+##     ## ##       ##       ##     ## 
+######### ######   ##       ########  
+##     ## ##       ##       ##        
+##     ## ##       ##       ##        
+##     ## ######## ######## ##        
+
+Auto Backup Tool is a Windows-only command line utility that backs up files 
+from a source directory to a destination directory.
+
+1. Before running backup, enter the setup menu and select your source and 
+   destination directories. Once both have been set, return to the main menu
+
+2. Run backup! Files will be backed up to the destination directory with 
+   a subdirectory named [Date_Time you backed up]
+
+Note: This is a prototype that will be used as a reference for future projects, 
+      and should NOT be used as a reliable tool to back up your personal files. 
