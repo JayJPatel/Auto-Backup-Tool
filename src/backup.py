@@ -9,6 +9,7 @@ from datetime import datetime
 # CLASS - Backup
 
 class Backup():  
+
     def __init__(self):  
         if (os.path.isfile('config.json')): 
             self.config_Exists = True 
@@ -19,6 +20,11 @@ class Backup():
             self.destination_Flag = False 
             self.source_Flag = False 
 
+    '''
+    runBackup: Backs up source to directory w/ label of current time
+    @param: None 
+    @return: None 
+    '''
     def runBackup(self):  
         print("Backing up...")
         # Grab current time, format, then store str to directory  
@@ -46,8 +52,10 @@ class Backup():
         with open('config.json', 'r') as parse: 
             data = json.load(parse)
         # Store destination and source paths & update flags 
-        self.destination = data["Destination"]
-        self.source = data["Source"]
+        self.dest_Path = data["Destination"]
+        self.destination = self.dest_Path["Destination"]
+        self.src_Path = data["Source"]
+        self.source = self.src_Path["Source"]
         self.source_Flag = True 
         self.destination_Flag = True   
         return  

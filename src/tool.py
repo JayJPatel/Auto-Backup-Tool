@@ -52,7 +52,6 @@ class Tool():
     def helpMenu(self):  
         os.system('cls')
         if (os.path.isfile('help.txt')):  
-            print("---Help---\n")
             # Open help.txt (context manager) 
             with open('help.txt', 'r') as helpText:  
                 print(helpText.read()) 
